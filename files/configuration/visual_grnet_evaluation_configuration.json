@@ -1,0 +1,15 @@
+{
+  "paths": {
+    "base_directory": "files/bw",
+    "plans_groups_file": "pergen_plans_groups.json",
+    "possible_goals_file": "pergen_possible_goals.json",
+    "goals_dictionary_file": "dizionario_goal_bw.json",
+    "results_directory": "results",
+    "embeddings_directory": "bw_embeddings"
+  },
+  "evaluation": {
+    "version": 1,
+    "suffix": "",
+    "display_categories": ["p01", "p02", "p03", "p04", "p05", "p06", "p07"]
+  }
+}

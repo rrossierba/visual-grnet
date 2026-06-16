@@ -1,0 +1,56 @@
+{
+  "environment": {
+    "tf_cpp_min_log_level": "2",
+    "tf_enable_onednn_opts": "1",
+    "experiment_seed": "1924"
+  },
+  "resources": {
+    "reserved_cores": 2,
+    "default_n_cores_fallback": 36
+  },
+  "dataset_bounds": {
+    "min_train_percentage": 0.3,
+    "max_train_percentage": 0.7,
+    "ignore_last_n_states": 2,
+    "max_sequence_dim": 75,
+    "num_classes": 506,
+    "verbose": 2,
+    "tuning_percentage": 0.5,
+    "monitor_metric": "val_loss"
+  },
+  "paths": {
+    "files_sub_directory": "files/bw"
+  },
+  "static_hyperparams": {
+    "warmup_epochs": 10
+  },
+  "search_space": {
+    "recurrent_dim": {
+      "low": 256,
+      "high": 1024,
+      "step": 64
+    },
+    "dropout": {
+      "low": 0.0,
+      "high": 0.5,
+      "step": 0.1
+    },
+    "recurrent_dropout": {
+      "low": 0.0,
+      "high": 0.5,
+      "step": 0.1
+    },
+    "learning_rate": {
+      "low": 1e-4,
+      "high": 1e-3,
+      "log": true
+    },
+    "learning_rate_min": {
+      "low": 1e-6,
+      "high": 1e-5,
+      "log": true
+    },
+    "normalize": [true, false],
+    "embedding_model": ["ae_v1", "ae_v2", "ae_v3"]
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "paths": {
+    "goals_dictionary": "files/bw/dizionario_goal_bw.json",
+    "problem_goals": "files/bw/goals_bw.json",
+    "problem_goals_pergen": "files/bw/goals_bw_pergen.json",
+    "encoder_models_directory": "files/bw/encoder_models",
+    "splits_json_file": "files/bw/splits_padded.json",
+    "blocksworld_plans_directory": "files/bw/blocksworld_plans_padded",
+    "pergen_blocksworld_directory": "files/bw/pergen_blocksworld_plans",
+    "output_embeddings_directory": "files/bw/bw_embeddings"
+  },
+  "pipeline_params": {
+    "image_height": 256,
+    "image_width": 256,
+    "channels": 3,
+    "batch_size": 128,
+    "verbose": 2
+  },
+  "extraction": {
+    "autoencoder_name": "autoencoder_example",
+    "save_str": "v1"
+  }
+}
