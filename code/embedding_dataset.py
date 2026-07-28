@@ -17,7 +17,7 @@ from keras.utils import Sequence
 def _compute_goal_vector(
     sequence_name: str,
     goals: Dict[str, List[str]],
-    dizionario_goal: Dict[str, int],
+    goal_indexes: Dict[str, int],
     num_classes: int,
 ) -> np.ndarray:
     """
@@ -34,7 +34,7 @@ def _compute_goal_vector(
     goals : dict of (str, list of str)
         A dictionary mapping problem identifiers to their respective list of
         goal fluents formatted in lowercase.
-    dizionario_goal : dict of (str, int)
+    goal_indexes : dict of (str, int)
         A lookup dictionary mapping uppercase fluent string configurations to their
         corresponding unique integer vector indices.
     num_classes : int
@@ -48,7 +48,7 @@ def _compute_goal_vector(
     problem_id = sequence_name.split('_')[0]
     goal_vector = np.zeros(num_classes, dtype=np.float32)
     for subgoal in goals.get(problem_id, []):
-        idx = dizionario_goal.get(subgoal.upper())
+        idx = goal_indexes.get(subgoal.upper())
         if idx is not None:
             goal_vector[idx] = 1.0
     return goal_vector
@@ -81,7 +81,7 @@ def _get_sorted_states(
 def precompute_embeddings_split(
     encoder: Model,
     splits: Dict[str, Union[List[Path], List[str]]],
-    dizionario_goal: Dict[str, int],
+    goal_indexes: Dict[str, int],
     goals: Dict[str, Dict[str, List[str]]],
     output_dir: Union[Path, str],
     image_height: int,
@@ -106,7 +106,7 @@ def precompute_embeddings_split(
     splits : dict of (str, list of pathlib.Path or list of str)
         A dictionary mapping split identifiers to sequences of filesystem directories 
         containing target image frames.
-    dizionario_goal : dict of (str, int)
+    goal_indexes : dict of (str, int)
         A lookup mapping tracking uppercase goal fluents to their unique integer 
         positional array indices.
     goals : dict of (str, dict of (str, list of str))
@@ -134,7 +134,7 @@ def precompute_embeddings_split(
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    num_classes = len(set(dizionario_goal.values()))
+    num_classes = len(set(goal_indexes.values()))
     res = {}
 
     for split_name, sequence_paths in splits.items():
@@ -178,7 +178,7 @@ def precompute_embeddings_split(
         seq_names: List[str] = []
 
         for seq_name, embeddings in embeddings_map.items():
-            goal_vector = _compute_goal_vector(seq_name, goals[split_name], dizionario_goal, num_classes)
+            goal_vector = _compute_goal_vector(seq_name, goals[split_name], goal_indexes, num_classes)
             npz_data[f'embeddings_{seq_name}'] = embeddings
             npz_data[f'goal_{seq_name}'] = goal_vector
             seq_names.append(seq_name)
@@ -244,7 +244,7 @@ def _encode_all_sequences(
     Parameters
     ----------
     encoder : keras.models.Model
-        The sub-network model used to encode raw images into dense latent representations.
+        The subnetwork model used to encode raw images into dense latent representations.
     sequences : list of tuple of (str, list of pathlib.Path)
         A list mapping each unique sequence name to its corresponding ordered collection
         of filesystem image state paths.
@@ -330,6 +330,51 @@ def _read_image_tf(
     img = tf.cast(img, tf.float32) / 255.0
     return img
 
+
+def _get_seed(sequence_name: str) -> int:
+    """
+    Extract a unique consistent integer seed identifier from a sequence name string.
+
+    Guarantees that a specific sequence path variant samples identical components
+    and structural splits consistently across disparate epochs.
+
+    Parameters
+    ----------
+    sequence_name : str
+        The raw alphanumeric identifier name of the plan layout (e.g., "p000931_2").
+
+    Returns
+    -------
+    int
+        A parsed integer seed derived from the sequence naming schema.
+    """
+    sequence_number = int(sequence_name.replace('_', '').replace('p', ''))
+    return sequence_number
+
+
+def _get_action_embeddings(embeddings: np.ndarray) -> np.ndarray:
+    """
+    Compute transition action representations from contiguous sequential state states.
+
+    An action embedding representation is defined mathematically as the vector
+    difference between the resulting state vector $s_{t+1}$ and the preceding state $s_t$.
+
+    Parameters
+    ----------
+    embeddings : np.ndarray
+        A 2D matrix of shape (num_states, embedding_dim) tracking raw state features.
+
+    Returns
+    -------
+    np.ndarray
+        A vectorized 2D matrix of shape (num_states - 1, embedding_dim) representing
+        the transition differences.
+    """
+    action_embeddings = np.diff(embeddings, axis=0)
+    assert len(action_embeddings) == len(embeddings) - 1, "Mismatched dimensions during action delta extraction."
+    return action_embeddings
+
+
 class EmbeddingSequence(Sequence):
     """
     Custom Keras Sequence dataset partitioner for processing sequential embeddings.
@@ -341,7 +386,7 @@ class EmbeddingSequence(Sequence):
     Parameters
     ----------
     npz : str, pathlib.Path or dict
-        Path to the compressed NPZ file or a pre-loaded dictionary containing 
+        Path to the compressed NPZ file or a preloaded dictionary containing
         the keys 'seq_names', 'embeddings_{name}', and 'goal_{name}'.
     max_dim : int
         The fixed maximum sequence length constraint enforced via truncation or padding.
@@ -454,10 +499,10 @@ class EmbeddingSequence(Sequence):
 
         Returns
         -------
-        X : np.ndarray
+        x : np.ndarray
             A 3D tensor batch of shape (actual_batch, max_dim, embedding_dim) 
             containing processed transition action embeddings.
-        Y : np.ndarray
+        y : np.ndarray
             A 2D tensor batch of shape (actual_batch, num_classes) mapping the target goal states.
         """     
         start = batch_idx * self.batch_size
@@ -465,38 +510,18 @@ class EmbeddingSequence(Sequence):
         batch_indices = self._indices[start:end]
         actual_batch = len(batch_indices)
 
-        X = np.zeros((actual_batch, self.max_dim, self.embedding_dim), dtype=np.float32)
-        Y = np.zeros((actual_batch, self.num_classes), dtype=np.float32)
+        x = np.zeros((actual_batch, self.max_dim, self.embedding_dim), dtype=np.float32)
+        y = np.zeros((actual_batch, self.num_classes), dtype=np.float32)
 
         for i, seq_idx in enumerate(batch_indices):
             seq_name = self.seq_names[seq_idx]
-            action_embeddings = self._get_action_embeddings(self._embeddings[seq_idx])
+            action_embeddings = _get_action_embeddings(self._embeddings[seq_idx])
 
-            X[i] = self._sample_and_pad(embeddings=action_embeddings, seed=self._get_seed(seq_name))
-            Y[i] = self._goals[seq_idx]
+            x[i] = self._sample_and_pad(embeddings=action_embeddings, seed=_get_seed(seq_name))
+            y[i] = self._goals[seq_idx]
 
-        return X, Y
+        return x, y
 
-    def _get_seed(self, sequence_name: str) -> int:
-        """
-        Extract a unique consistent integer seed identifier from a sequence name string.
-
-        Guarantees that a specific sequence path variant samples identical components 
-        and structural splits consistently across disparate epochs.
-
-        Parameters
-        ----------
-        sequence_name : str
-            The raw alpha-numeric identifier name of the plan layout (e.g., "p000931_2").
-
-        Returns
-        -------
-        int
-            A parsed integer seed derived from the sequence naming schema.
-        """        
-        sequence_number = int(sequence_name.replace('_', '').replace('p', ''))
-        return sequence_number
-    
     def _get_perc(self, seed: int) -> float:
         """
         Retrieve the target sequence frame sampling percentage coefficient.
@@ -512,28 +537,6 @@ class EmbeddingSequence(Sequence):
             The static target sampling percentage coefficient tracking the state.
         """        
         return self.perc
-    
-    def _get_action_embeddings(self, embeddings: np.ndarray) -> np.ndarray:
-        """
-        Compute transition action representations from contiguous sequential state states.
-
-        An action embedding representation is defined mathematically as the vector 
-        difference between the resulting state vector $s_{t+1}$ and the preceding state $s_t$.
-
-        Parameters
-        ----------
-        embeddings : np.ndarray
-            A 2D matrix of shape (num_states, embedding_dim) tracking raw state features.
-
-        Returns
-        -------
-        np.ndarray
-            A vectorized 2D matrix of shape (num_states - 1, embedding_dim) representing 
-            the transition differences.
-        """        
-        action_embeddings = np.diff(embeddings, axis=0)
-        assert len(action_embeddings) == len(embeddings) - 1, "Mismatched dimensions during action delta extraction."
-        return action_embeddings
 
     def _sample_and_pad(self, embeddings: np.ndarray, seed: int) -> np.ndarray:
         """
@@ -601,8 +604,8 @@ class EmbeddingSequenceMultiPerc(EmbeddingSequence):
 
     Parameters
     ----------
-    npz_path : str or pathlib.Path
-        Path to the compressed NPZ file or a pre-loaded dictionary tracking sequence 
+    npz_path : pathlib.Path or str
+        Path to the compressed NPZ file or a preloaded dictionary tracking sequence
         embeddings and target goal vectors.
     max_dim : int
         The fixed maximum sequence length constraint enforced via truncation or padding.
@@ -679,7 +682,7 @@ class EmbeddingSequenceMultiPerc(EmbeddingSequence):
         Returns
         -------
         float
-            A randomly sampled float value bounded bounded within the range 
+            A randomly sampled float value bounded within the range
             [`min_perc`, `max_perc`].
         """        
         rng_seq = np.random.default_rng(seed)

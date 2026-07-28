@@ -92,7 +92,7 @@ from visual_grnet import (
 import numpy as np
 from keras.losses import BinaryCrossentropy
 from keras.regularizers import L1, L2, L1L2
-from keras import backend as K
+from keras import backend
 
 optuna.logging.disable_default_handler()
 optuna_logger = logging.getLogger('optuna')
@@ -153,7 +153,7 @@ def precalculate_and_save(embedding_models: list[str]) -> None:
     Parameters
     ----------
     embedding_models : list of str
-        A list of sub-network string identifiers mapping the training archives 
+        A list of subnetwork string identifiers mapping the training archives
         to be evaluated and cached.
     """    
     caches_dir = FILES_DIR / 'optuna' / 'cache'
@@ -249,6 +249,10 @@ def create_model_and_dataset(trial: optuna.trial.Trial, search_cfg:dict, static_
     ----------
     trial : optuna.trial.Trial
         The active tuning trial tracking hyperparameter exploration checkpoints.
+    search_cfg: dict
+        The dictionary representing the search parameters' configuration.
+    static_cfg: dict
+        The dictionary representing the static parameters' configuration.
 
     Returns
     -------
@@ -419,7 +423,7 @@ def objective(trial: optuna.trial.Trial) -> float:
         if val_dataset is not None:
             del val_dataset
         gc.collect()
-        K.clear_session()
+        backend.clear_session()
 
 def run_study() -> None:
     """

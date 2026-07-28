@@ -12,11 +12,7 @@ os.environ['TF_ENABLE_ONEDNN_OPTS'] = '1'
 os.environ['EXPERIMENT_SEED'] = '42'
 
 import json
-import random
-from embedding_dataset import (
-    get_mean_std,
-    precompute_embeddings_split
-)
+from embedding_dataset import get_mean_std    
 from visual_grnet import (
     build_network,
     train_network,
@@ -42,7 +38,7 @@ import pandas as pd
 from report import create_report, _get_embeddings_stats
 from pathlib import Path
 from autoencoder.autoencoder import DAE, Autoencoder, VAE
-from keras.losses import BinaryFocalCrossentropy, BinaryCrossentropy, Loss
+from keras.losses import BinaryCrossentropy
 from keras.models import load_model
 from dataclasses import asdict
 from typing import Union
@@ -50,101 +46,6 @@ from typing import Union
 VERBOSE = 2
 base_dir = Path(__file__).resolve().parent.parent
 
-def load_config(config_path: str) -> dict:
-    """
-    Load and parse the JSON embedding extraction configuration file.
-
-    Parameters
-    ----------
-    config_path : str
-        The path pointing to the JSON configuration metadata file.
-
-    Returns
-    -------
-    dict
-        A nested dictionary containing path configurations and pipeline parameters.
-    """
-    with open(config_path, 'r') as file:
-        return json.load(file)
-
-def extract_embeddings(config: dict) -> None:
-    """
-    Execute configuration-driven automated image state feature embedding extraction.
-
-    Initializes problem-goal maps, constructs complete network layouts from storage 
-    checkpoints, organizes sequence directories extracted from partition arrays, 
-    and pipes batch tensors into compressed file segments.
-
-    Parameters
-    ----------
-    config : dict
-        A nested dictionary mapping application run paths, validation bounds, 
-        and structural network specifications.
-    """
-    paths_cfg = config['paths']
-    pipeline_cfg = config['pipeline_params']
-    extract_cfg = config['extraction']
-
-    autoencoder_name = extract_cfg['autoencoder_name']
-    save_str = extract_cfg['save_str']
-
-    with open(base_dir / paths_cfg['goals_dictionary'], 'r') as f:
-        dizionario_goal = json.load(f)
-    with open(base_dir / paths_cfg['problem_goals'], 'r') as f:
-        problem_goals = json.load(f)
-    with open(base_dir / paths_cfg['problem_goals_pergen'], 'r') as f:
-        problem_goals_pergen = json.load(f)
-    
-    path_ae = base_dir / paths_cfg['encoder_models_directory'] / f'{autoencoder_name}.keras'
-    ae: Union[VAE, Autoencoder, DAE] = load_model(
-        path_ae, 
-        custom_objects={'VAE': VAE, 'Autoencoder': Autoencoder, 'DAE': DAE}, 
-        compile=False
-    ) # type: ignore
-    encoder = ae.encoder 
-    
-    print(encoder.summary())
-
-    all_sequence_path = base_dir / paths_cfg['blocksworld_plans_directory']
-    pergen_sequence_path = base_dir / paths_cfg['pergen_blocksworld_directory']
-    print(f"Base plans path: {all_sequence_path}")
-    print(f"Pergen plans path: {pergen_sequence_path}")
-
-    with open(base_dir / paths_cfg['splits_json_file'], 'r') as f:
-        splits = json.load(f)
-
-    train_sequences = [all_sequence_path / s for s in splits['train']]
-    validation_sequences = [all_sequence_path / s for s in splits['val']]
-    test_sequences = [all_sequence_path / s for s in splits['test']]
-    test_pergen_sequences = list(pergen_sequence_path.glob('p*'))
-
-    split_npz_paths = precompute_embeddings_split(
-        encoder=encoder,
-        splits={
-            f'train_{save_str}': train_sequences, 
-            f'validation_{save_str}': validation_sequences, 
-            f'test_{save_str}': test_sequences,
-            f'test_pergen_{save_str}': test_pergen_sequences
-        },
-        dizionario_goal=dizionario_goal,
-        goals={
-            f'train_{save_str}': problem_goals, 
-            f'validation_{save_str}': problem_goals, 
-            f'test_{save_str}': problem_goals,
-            f'test_pergen_{save_str}': problem_goals_pergen
-        },
-        output_dir=base_dir / paths_cfg['output_embeddings_directory'],
-        image_height=pipeline_cfg['image_height'],
-        image_width=pipeline_cfg['image_width'],
-        channels=pipeline_cfg['channels'],
-        batch_size=pipeline_cfg['batch_size'],
-        verbose=pipeline_cfg['verbose']
-    )
-
-    if isinstance(split_npz_paths, dict):
-        for split, path in split_npz_paths.items():
-            print(f"\nAnalyzing distribution stats for partition split: {split}")
-            _get_embeddings_stats(path, print_results=True)
 
 def _build_train_paths(base_dir: Path, version: int, dataset_str: str) -> dict:
     """Funzione che definisce i percorsi dei diversi elementi necessari ad una run
