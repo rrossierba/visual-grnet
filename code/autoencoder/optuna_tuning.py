@@ -131,7 +131,7 @@ def create_model(trial, dataset_cfg: dict, tuning_cfg: dict, search_cfg: dict):
     encoder = build_encoder(**encoder_decoder_config)
     decoder = build_decoder(**encoder_decoder_config)
 
-    autoencoder = Autoencoder(
+    autoencoder = SparseAutoencoder(
         encoder=encoder,
         decoder=decoder,
         l1_lambda=l1_lambda

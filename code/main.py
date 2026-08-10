@@ -32,12 +32,12 @@ from visual_grnet import (
     WeightedBCE,
     calculate_frequencies
 )
-from get_predictions_and_results import run_evaluation
+from gr_evaluate import run_evaluation
 import numpy as np
 import pandas as pd
-from report import create_report, _get_embeddings_stats
+from evaluate import create_report, _get_embeddings_stats
 from pathlib import Path
-from autoencoder.autoencoder import DAE, Autoencoder, VAE
+from autoencoder.autoencoder import DenoisingAutoencoder, SparseAutoencoder, VariationalAutoencoder
 from keras.losses import BinaryCrossentropy
 from keras.models import load_model
 from dataclasses import asdict
@@ -243,5 +243,5 @@ if __name__ == '__main__':
         epochs=exp_cfg['epochs']
     )
     
-    run_evaluation(version_number)
+    run_evaluation()
     create_report(version_number)

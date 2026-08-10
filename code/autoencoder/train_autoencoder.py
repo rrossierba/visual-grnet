@@ -75,22 +75,22 @@ decoder = build_decoder(
     use_batch_norm=model_cfg['use_batch_norm']
 )
 
-if model_type == 'autoencoder':
-    autoencoder = Autoencoder(
+if model_type == 'sae':
+    autoencoder = SparseAutoencoder(
         encoder=encoder,
         decoder=decoder,
         l1_lambda=model_cfg.get('l1_lambda', 0.0),
         name=model_type
     )
 elif model_type == 'dae':
-    autoencoder = DAE(
+    autoencoder = DenoisingAutoencoder(
         encoder=encoder,
         decoder=decoder,
         noise_factor=model_cfg.get('noise_factor', 0.2),
         name=model_type
     )
 elif model_type == 'vae':
-    autoencoder = VAE(
+    autoencoder = VariationalAutoencoder(
         encoder=encoder,
         decoder=decoder,
         beta=model_cfg.get('beta', 0.01),

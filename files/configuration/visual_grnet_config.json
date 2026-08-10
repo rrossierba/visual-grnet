@@ -1,0 +1,82 @@
+{
+  "version":421,
+  "domain":"blocksworld",
+  "train": {
+    "experiment": {
+      "epochs": 50,
+      "verbose": 2
+    },
+    "dataset_bounds": {
+      "num_classes": 506,
+      "max_sequence_dim": 100,
+      "min_train_percentage": 0.3,
+      "max_train_percentage": 0.7,
+      "ignore_last_n_states": 2
+    },
+    "optuna_best_params": {
+      "recurrent_dim": 320,
+      "dropout": 0.4,
+      "recurrent_dropout": 0.2,
+      "learning_rate": 0.001,
+      "learning_rate_min": 1e-06,
+      "warmup_epochs": 10,
+      "normalize": false,
+      "embedding_model": "sae"
+    },
+    "network": {
+      "model_name": "visual-grnet",
+      "embedding_dim": 256,
+      "use_bidirectional": false,
+      "loss_function": "weighted_bce",
+      "adapter": {
+        "use_adapter": false,
+        "adapt_factor": 5,
+        "adapt_dropout": 0.0
+      }
+    },
+    "callbacks": {
+      "early_stopping": {
+        "patience": 10,
+        "mode": "max",
+        "monitor": "val_pr_auc"
+      },
+      "checkpoint": {
+        "mode": "max",
+        "monitor": "val_pr_auc"
+      },
+      "reduce_lr": {
+        "use_callback": false
+      },
+      "static_logger": {
+        "use_callback": false
+      },
+      "use_weight_monitor": false
+    }
+  },
+  "gr_evaluation": {
+    "paths": {
+      "files_directory": "files",
+      "experiments_directory": "experiments",
+      "results_directory": "results",
+      "embeddings_directory": "embeddings_cache",
+      "domain_jsons_directory": "jsons",
+      "plans_groups_file": "pergen_plans_groups.json",
+      "possible_goals_file": "pergen_possible_goals.json",
+      "goals_dictionary_file": "goal_indexes.json"
+    },
+    "evaluation": {
+      "ignore_last_n_states": 0,
+      "confidence":0,
+      "metrics":["accuracy"],
+      "display_categories": [
+        "p01",
+        "p02",
+        "p03",
+        "p04",
+        "p05",
+        "p06",
+        "p07"
+      ]
+    }
+  }
+}

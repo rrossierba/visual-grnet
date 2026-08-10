@@ -1,0 +1,1474 @@
+{
+    "p03": {
+        "3": [
+            "on r e",
+            "clear m",
+            "on-table e",
+            "on o r",
+            "on m o"
+        ],
+        "8": [
+            "clear t",
+            "on t w",
+            "on-table o",
+            "on w o"
+        ],
+        "11": [
+            "on t o",
+            "on r e",
+            "clear t",
+            "on-table e",
+            "on o r"
+        ],
+        "7": [
+            "on o w",
+            "on t o",
+            "clear t",
+            "on w e",
+            "on e r",
+            "on-table r"
+        ],
+        "0": [
+            "clear m",
+            "on o t",
+            "on t h",
+            "on e r",
+            "on h e",
+            "on-table r",
+            "on m o"
+        ],
+        "17": [
+            "on-table t",
+            "clear r",
+            "on r a",
+            "on a t"
+        ],
+        "9": [
+            "on o w",
+            "on-table w",
+            "clear m",
+            "on m o"
+        ],
+        "4": [
+            "on-table e",
+            "on t o",
+            "clear t",
+            "on o m",
+            "on m e"
+        ],
+        "5": [
+            "clear h",
+            "on e r",
+            "on h e",
+            "on-table o",
+            "on r o"
+        ],
+        "2": [
+            "clear h",
+            "on e r",
+            "on h e",
+            "on-table r"
+        ],
+        "1": [
+            "on o t",
+            "on t h",
+            "on e r",
+            "on h e",
+            "clear o",
+            "on-table r"
+        ],
+        "18": [
+            "on-table w",
+            "clear t",
+            "on h a",
+            "on t h",
+            "on a w"
+        ],
+        "12": [
+            "on o w",
+            "on-table w",
+            "on t o",
+            "clear t"
+        ],
+        "6": [
+            "on t e",
+            "on o t",
+            "clear r",
+            "on-table e",
+            "on r o"
+        ],
+        "16": [
+            "clear h",
+            "on a r",
+            "on r e",
+            "on h a",
+            "on-table e"
+        ],
+        "10": [
+            "clear w",
+            "on r e",
+            "on-table e",
+            "on w o",
+            "on o r"
+        ],
+        "13": [
+            "on o w",
+            "on-table w",
+            "clear t",
+            "on t h",
+            "on h r",
+            "on r o"
+        ],
+        "14": [
+            "on o w",
+            "on-table w",
+            "clear r",
+            "on r o"
+        ],
+        "15": [
+            "clear h",
+            "on-table e",
+            "on o m",
+            "on m e",
+            "on h o"
+        ]
+    },
+    "p07": {
+        "0": [
+            "on e o",
+            "on b g",
+            "on p q",
+            "on o m",
+            "on h e",
+            "on c i",
+            "on n c",
+            "on g a",
+            "on q l",
+            "on m d",
+            "on k f",
+            "on f j",
+            "on l n",
+            "on i k",
+            "on j b",
+            "on a h"
+        ],
+        "12": [
+            "on b g",
+            "on i p",
+            "on o m",
+            "on p n",
+            "on e a",
+            "on q i",
+            "on h e",
+            "on n c",
+            "on c k",
+            "on l f",
+            "on k l",
+            "on g h",
+            "on m d",
+            "on f j",
+            "on a o",
+            "on j b"
+        ],
+        "9": [
+            "on l p",
+            "on e o",
+            "on b g",
+            "on k i",
+            "on h a",
+            "on a e",
+            "on i f",
+            "on p n",
+            "on n c",
+            "on c k",
+            "on o d",
+            "on q l",
+            "on d m",
+            "on g h",
+            "on f j",
+            "on j b"
+        ],
+        "3": [
+            "on e o",
+            "on p l",
+            "on o m",
+            "on q p",
+            "on h e",
+            "on c i",
+            "on n c",
+            "on a g",
+            "on g h",
+            "on m d",
+            "on b a",
+            "on k f",
+            "on f j",
+            "on l n",
+            "on i k",
+            "on j b"
+        ],
+        "8": [
+            "on l p",
+            "on e o",
+            "on b g",
+            "on o m",
+            "on j f",
+            "on p n",
+            "on h e",
+            "on c i",
+            "on n c",
+            "on g a",
+            "on q l",
+            "on k j",
+            "on m d",
+            "on i k",
+            "on f b",
+            "on a h"
+        ],
+        "11": [
+            "on l p",
+            "on i b",
+            "on h a",
+            "on o m",
+            "on j f",
+            "on c q",
+            "on a e",
+            "on p n",
+            "on q i",
+            "on n c",
+            "on e d",
+            "on k l",
+            "on f g",
+            "on g h",
+            "on d o",
+            "on b j"
+        ],
+        "19": [
+            "on p f",
+            "on k i",
+            "on g l",
+            "on i p",
+            "on h a",
+            "on a m",
+            "on d j",
+            "on b c",
+            "on o g",
+            "on c h",
+            "on e d",
+            "on n q",
+            "on q k",
+            "on l n",
+            "on m e",
+            "on f b"
+        ],
+        "14": [
+            "on q h",
+            "on i p",
+            "on o m",
+            "on e b",
+            "on j g",
+            "on c l",
+            "on p n",
+            "on h e",
+            "on n c",
+            "on a i",
+            "on b o",
+            "on m d",
+            "on k f",
+            "on f j",
+            "on l k",
+            "on g q"
+        ],
+        "6": [
+            "on e o",
+            "on b g",
+            "on f k",
+            "on p l",
+            "on l q",
+            "on o m",
+            "on i f",
+            "on q c",
+            "on h e",
+            "on c i",
+            "on g a",
+            "on k j",
+            "on m d",
+            "on n p",
+            "on j b",
+            "on a h"
+        ],
+        "18": [
+            "on k i",
+            "on g l",
+            "on p b",
+            "on h a",
+            "on a m",
+            "on j g",
+            "on i f",
+            "on b c",
+            "on c h",
+            "on e d",
+            "on n q",
+            "on f p",
+            "on q k",
+            "on l n",
+            "on d o",
+            "on m e"
+        ],
+        "15": [
+            "on p l",
+            "on k i",
+            "on l q",
+            "on h a",
+            "on a m",
+            "on i f",
+            "on n k",
+            "on b c",
+            "on c h",
+            "on e d",
+            "on q n",
+            "on f j",
+            "on d o",
+            "on m e",
+            "on j b",
+            "on g p"
+        ],
+        "16": [
+            "on p l",
+            "on k i",
+            "on b h",
+            "on l q",
+            "on h a",
+            "on i f",
+            "on j c",
+            "on n k",
+            "on m p",
+            "on e d",
+            "on a g",
+            "on g e",
+            "on q n",
+            "on f j",
+            "on c b",
+            "on d o"
+        ],
+        "2": [
+            "on e o",
+            "on b g",
+            "on p l",
+            "on o m",
+            "on q p",
+            "on h e",
+            "on c i",
+            "on n c",
+            "on g a",
+            "on m d",
+            "on k f",
+            "on f j",
+            "on l n",
+            "on i k",
+            "on j b",
+            "on a h"
+        ],
+        "4": [
+            "on e o",
+            "on b g",
+            "on p q",
+            "on o m",
+            "on q c",
+            "on h e",
+            "on c i",
+            "on g a",
+            "on m d",
+            "on k f",
+            "on f j",
+            "on n p",
+            "on l n",
+            "on i k",
+            "on j b",
+            "on a h"
+        ],
+        "5": [
+            "on b g",
+            "on c q",
+            "on q i",
+            "on h e",
+            "on g a",
+            "on e m",
+            "on o d",
+            "on p c",
+            "on k f",
+            "on f j",
+            "on n p",
+            "on l n",
+            "on i k",
+            "on j b",
+            "on m o",
+            "on a h"
+        ],
+        "17": [
+            "on k i",
+            "on g l",
+            "on c a",
+            "on j f",
+            "on i j",
+            "on p g",
+            "on b c",
+            "on e d",
+            "on h m",
+            "on n q",
+            "on q k",
+            "on l n",
+            "on d o",
+            "on m e",
+            "on f b",
+            "on a h"
+        ],
+        "10": [
+            "on l p",
+            "on e o",
+            "on b g",
+            "on k i",
+            "on h a",
+            "on a e",
+            "on i f",
+            "on p n",
+            "on c l",
+            "on o d",
+            "on d m",
+            "on n q",
+            "on g h",
+            "on f j",
+            "on q k",
+            "on j b"
+        ],
+        "1": [
+            "on e o",
+            "on l c",
+            "on b g",
+            "on n i",
+            "on p q",
+            "on c n",
+            "on h e",
+            "on g a",
+            "on o d",
+            "on q l",
+            "on d m",
+            "on k f",
+            "on f j",
+            "on i k",
+            "on j b",
+            "on a h"
+        ],
+        "13": [
+            "on j q",
+            "on i p",
+            "on o m",
+            "on c l",
+            "on e a",
+            "on h e",
+            "on p n",
+            "on n c",
+            "on g h",
+            "on m d",
+            "on k f",
+            "on f j",
+            "on l k",
+            "on a o",
+            "on b i",
+            "on q g"
+        ]
+    },
+    "p06": {
+        "10": [
+            "on f k",
+            "on b h",
+            "on k a",
+            "on d i",
+            "on e j",
+            "on i g",
+            "on c d",
+            "on h f",
+            "on g e",
+            "on j b"
+        ],
+        "17": [
+            "on f k",
+            "on c e",
+            "on k a",
+            "on j f",
+            "on g i",
+            "on h b",
+            "on e h",
+            "on i c",
+            "on d g",
+            "on b j"
+        ],
+        "4": [
+            "on h k",
+            "on b h",
+            "on j d",
+            "on g c",
+            "on e b",
+            "on c j",
+            "on i g",
+            "on d e",
+            "on f a",
+            "on k f"
+        ],
+        "2": [
+            "on a k",
+            "on g c",
+            "on e j",
+            "on h b",
+            "on j h",
+            "on i g",
+            "on d e",
+            "on c d",
+            "on b a",
+            "on k f"
+        ],
+        "7": [
+            "on a k",
+            "on c j",
+            "on g i",
+            "on h b",
+            "on e h",
+            "on j e",
+            "on i d",
+            "on b a",
+            "on k f",
+            "on d c"
+        ],
+        "9": [
+            "on a k",
+            "on c j",
+            "on g i",
+            "on h b",
+            "on e h",
+            "on f a",
+            "on j e",
+            "on b f",
+            "on i d",
+            "on d c"
+        ],
+        "15": [
+            "on f k",
+            "on c e",
+            "on b h",
+            "on k a",
+            "on g i",
+            "on e j",
+            "on i c",
+            "on d g",
+            "on h f",
+            "on j b"
+        ],
+        "11": [
+            "on f k",
+            "on k a",
+            "on e b",
+            "on d i",
+            "on j h",
+            "on i g",
+            "on c d",
+            "on h f",
+            "on g e",
+            "on b j"
+        ],
+        "0": [
+            "on a k",
+            "on b h",
+            "on h a",
+            "on g c",
+            "on e j",
+            "on i g",
+            "on d e",
+            "on c d",
+            "on k f",
+            "on j b"
+        ],
+        "8": [
+            "on f k",
+            "on c j",
+            "on g i",
+            "on a f",
+            "on h b",
+            "on e h",
+            "on j e",
+            "on i d",
+            "on b a",
+            "on d c"
+        ],
+        "14": [
+            "on a k",
+            "on b h",
+            "on h a",
+            "on d i",
+            "on e j",
+            "on i g",
+            "on c d",
+            "on g e",
+            "on k f",
+            "on j b"
+        ],
+        "19": [
+            "on c e",
+            "on g i",
+            "on e j",
+            "on h b",
+            "on i c",
+            "on j a",
+            "on d g",
+            "on k f",
+            "on b k",
+            "on a h"
+        ],
+        "3": [
+            "on f k",
+            "on c e",
+            "on b h",
+            "on h a",
+            "on g c",
+            "on d j",
+            "on a f",
+            "on e d",
+            "on i g",
+            "on j b"
+        ],
+        "1": [
+            "on h k",
+            "on b h",
+            "on g c",
+            "on e j",
+            "on i g",
+            "on d e",
+            "on f a",
+            "on c d",
+            "on k f",
+            "on j b"
+        ],
+        "6": [
+            "on h k",
+            "on c e",
+            "on b h",
+            "on g i",
+            "on e j",
+            "on f a",
+            "on i d",
+            "on k f",
+            "on j b",
+            "on d c"
+        ],
+        "16": [
+            "on f k",
+            "on c e",
+            "on k a",
+            "on e b",
+            "on g i",
+            "on j h",
+            "on i c",
+            "on d g",
+            "on h f",
+            "on b j"
+        ],
+        "12": [
+            "on f k",
+            "on k a",
+            "on g j",
+            "on d i",
+            "on h b",
+            "on j h",
+            "on e g",
+            "on c d",
+            "on b f",
+            "on i e"
+        ],
+        "5": [
+            "on a k",
+            "on c e",
+            "on b h",
+            "on h a",
+            "on g i",
+            "on e j",
+            "on i d",
+            "on k f",
+            "on j b",
+            "on d c"
+        ],
+        "13": [
+            "on f k",
+            "on k a",
+            "on j f",
+            "on d i",
+            "on h b",
+            "on e h",
+            "on i g",
+            "on c d",
+            "on g e",
+            "on b j"
+        ],
+        "18": [
+            "on a k",
+            "on c e",
+            "on b h",
+            "on h a",
+            "on g i",
+            "on e j",
+            "on i c",
+            "on d g",
+            "on k f",
+            "on j b"
+        ]
+    },
+    "p02": {
+        "9": [
+            "on t u",
+            "on u s",
+            "clear t",
+            "on s h",
+            "on-table h"
+        ],
+        "7": [
+            "on-table t",
+            "on u t",
+            "on c u",
+            "clear c"
+        ],
+        "18": [
+            "clear s",
+            "on a c",
+            "on s a",
+            "on-table k",
+            "on c k"
+        ],
+        "19": [
+            "on-table t",
+            "on u r",
+            "on c u",
+            "on r t",
+            "clear c"
+        ],
+        "8": [
+            "on r u",
+            "on-table t",
+            "clear r",
+            "on u t"
+        ],
+        "1": [
+            "on a s",
+            "clear t",
+            "on s h",
+            "on-table h",
+            "on t r",
+            "on r a"
+        ],
+        "6": [
+            "on h u",
+            "on-table t",
+            "on s h",
+            "on u t",
+            "clear s"
+        ],
+        "0": [
+            "on a r",
+            "on s t",
+            "on t a",
+            "clear s",
+            "on-table r"
+        ],
+        "15": [
+            "on r u",
+            "on u c",
+            "on-table k",
+            "clear r",
+            "on c k"
+        ],
+        "5": [
+            "on a s",
+            "on c a",
+            "on s h",
+            "on-table h",
+            "clear c"
+        ],
+        "13": [
+            "clear s",
+            "on s u",
+            "on u c",
+            "on-table k",
+            "on c k"
+        ],
+        "3": [
+            "on a s",
+            "on s h",
+            "on-table h",
+            "clear a"
+        ],
+        "10": [
+            "on r u",
+            "on u s",
+            "on s h",
+            "on-table h",
+            "clear r"
+        ],
+        "2": [
+            "on a s",
+            "on s h",
+            "on-table h",
+            "clear r",
+            "on r a"
+        ],
+        "16": [
+            "on r u",
+            "on u s",
+            "on-table t",
+            "on s t",
+            "clear r"
+        ],
+        "17": [
+            "clear h",
+            "on a c",
+            "on h a",
+            "on-table k",
+            "on c k"
+        ],
+        "14": [
+            "on t u",
+            "clear t",
+            "on u c",
+            "on-table k",
+            "on c k"
+        ],
+        "4": [
+            "on a s",
+            "on s h",
+            "on c r",
+            "on-table h",
+            "on r a",
+            "clear c"
+        ],
+        "12": [
+            "on r u",
+            "clear t",
+            "on u c",
+            "on-table k",
+            "on t r",
+            "on c k"
+        ],
+        "11": [
+            "on r u",
+            "on u s",
+            "on s h",
+            "on c r",
+            "on-table h",
+            "clear c"
+        ]
+    },
+    "p01": {
+        "7": [
+            "on a r",
+            "clear e",
+            "on e a",
+            "on-table r"
+        ],
+        "15": [
+            "on o w",
+            "on c o",
+            "on w e",
+            "on e r",
+            "on-table r",
+            "clear c"
+        ],
+        "12": [
+            "clear w",
+            "on r e",
+            "on-table e",
+            "on w o",
+            "on o r"
+        ],
+        "18": [
+            "on a d",
+            "clear w",
+            "on d e",
+            "on w a",
+            "on-table e"
+        ],
+        "20": [
+            "on p e",
+            "on a p",
+            "clear r",
+            "on-table e",
+            "on r a"
+        ],
+        "10": [
+            "on p e",
+            "clear d",
+            "on o p",
+            "on d o",
+            "on-table e"
+        ],
+        "3": [
+            "on a d",
+            "clear w",
+            "on-table d",
+            "on w a"
+        ],
+        "8": [
+            "on p e",
+            "on a r",
+            "clear p",
+            "on e a",
+            "on-table r"
+        ],
+        "14": [
+            "on-table p",
+            "on r e",
+            "on a p",
+            "clear r",
+            "on e a"
+        ],
+        "13": [
+            "on o w",
+            "on p o",
+            "clear p",
+            "on w e",
+            "on e r",
+            "on-table r"
+        ],
+        "9": [
+            "on p e",
+            "on o p",
+            "clear r",
+            "on-table e",
+            "on r o"
+        ],
+        "0": [
+            "on-table w",
+            "clear d",
+            "on d r",
+            "on r a",
+            "on a w"
+        ],
+        "16": [
+            "on r e",
+            "on c o",
+            "on-table e",
+            "on o r",
+            "clear c"
+        ],
+        "11": [
+            "clear d",
+            "on a r",
+            "on d e",
+            "on e a",
+            "on-table r"
+        ],
+        "4": [
+            "on o w",
+            "on-table w",
+            "on c r",
+            "on r o",
+            "clear c"
+        ],
+        "19": [
+            "on-table w",
+            "clear p",
+            "on p a",
+            "on a w"
+        ],
+        "17": [
+            "on p o",
+            "on r e",
+            "clear p",
+            "on-table e",
+            "on o r"
+        ],
+        "6": [
+            "clear w",
+            "on a r",
+            "on w e",
+            "on e a",
+            "on-table r"
+        ],
+        "5": [
+            "on o w",
+            "on-table w",
+            "clear r",
+            "on r o"
+        ],
+        "1": [
+            "clear w",
+            "on a r",
+            "on w a",
+            "on-table r"
+        ],
+        "2": [
+            "on-table w",
+            "clear r",
+            "on r a",
+            "on a w"
+        ]
+    },
+    "p04": {
+        "5": [
+            "on f i",
+            "on i a",
+            "on e h",
+            "on h g",
+            "on c d",
+            "on g j",
+            "on a e",
+            "on b c",
+            "on d f"
+        ],
+        "3": [
+            "on f i",
+            "on i a",
+            "on e g",
+            "on j e",
+            "on c b",
+            "on b d",
+            "on h j",
+            "on d f",
+            "on a h"
+        ],
+        "12": [
+            "on f i",
+            "on c f",
+            "on i g",
+            "on e h",
+            "on h a",
+            "on a j",
+            "on g e",
+            "on d b",
+            "on b c"
+        ],
+        "4": [
+            "on f i",
+            "on h a",
+            "on e g",
+            "on j e",
+            "on a j",
+            "on c b",
+            "on b d",
+            "on i h",
+            "on d f"
+        ],
+        "0": [
+            "on f i",
+            "on i a",
+            "on e h",
+            "on h g",
+            "on g j",
+            "on a e",
+            "on c b",
+            "on b d",
+            "on d f"
+        ],
+        "14": [
+            "on h g",
+            "on f c",
+            "on g j",
+            "on b f",
+            "on d b",
+            "on e a",
+            "on i e",
+            "on c i",
+            "on a h"
+        ],
+        "16": [
+            "on i a",
+            "on e h",
+            "on c d",
+            "on d i",
+            "on j g",
+            "on a e",
+            "on b c",
+            "on h j",
+            "on f b"
+        ],
+        "9": [
+            "on f i",
+            "on h a",
+            "on e g",
+            "on j e",
+            "on a j",
+            "on c d",
+            "on b c",
+            "on i h",
+            "on d f"
+        ],
+        "18": [
+            "on i a",
+            "on e h",
+            "on j g",
+            "on a e",
+            "on b d",
+            "on c i",
+            "on h j",
+            "on d c",
+            "on f b"
+        ],
+        "19": [
+            "on h g",
+            "on c d",
+            "on g j",
+            "on d i",
+            "on e a",
+            "on i e",
+            "on b c",
+            "on f b",
+            "on a h"
+        ],
+        "11": [
+            "on f i",
+            "on c f",
+            "on i a",
+            "on e h",
+            "on j g",
+            "on a e",
+            "on d b",
+            "on b c",
+            "on h j"
+        ],
+        "1": [
+            "on f i",
+            "on i a",
+            "on e h",
+            "on j g",
+            "on a e",
+            "on c b",
+            "on b d",
+            "on h j",
+            "on d f"
+        ],
+        "13": [
+            "on i a",
+            "on e h",
+            "on f c",
+            "on b f",
+            "on j g",
+            "on a e",
+            "on d b",
+            "on c i",
+            "on h j"
+        ],
+        "6": [
+            "on f i",
+            "on i a",
+            "on e g",
+            "on j e",
+            "on c d",
+            "on b c",
+            "on h j",
+            "on d f",
+            "on a h"
+        ],
+        "17": [
+            "on i g",
+            "on e h",
+            "on h a",
+            "on c d",
+            "on a j",
+            "on g e",
+            "on d i",
+            "on b c",
+            "on f b"
+        ],
+        "15": [
+            "on i a",
+            "on e h",
+            "on h g",
+            "on c d",
+            "on g j",
+            "on d i",
+            "on a e",
+            "on b c",
+            "on f b"
+        ],
+        "8": [
+            "on j h",
+            "on f i",
+            "on i a",
+            "on e g",
+            "on c d",
+            "on g j",
+            "on a e",
+            "on b c",
+            "on d f"
+        ],
+        "2": [
+            "on f i",
+            "on i a",
+            "on g e",
+            "on j g",
+            "on c b",
+            "on b d",
+            "on h j",
+            "on d f",
+            "on a h"
+        ],
+        "10": [
+            "on f i",
+            "on c f",
+            "on i a",
+            "on e h",
+            "on h g",
+            "on g j",
+            "on a e",
+            "on d b",
+            "on b c"
+        ],
+        "7": [
+            "on f i",
+            "on i a",
+            "on e h",
+            "on c d",
+            "on j g",
+            "on a e",
+            "on b c",
+            "on h j",
+            "on d f"
+        ]
+    },
+    "p05": {
+        "1": [
+            "on h k",
+            "on k i",
+            "on b h",
+            "on j d",
+            "on a j",
+            "on c g",
+            "on f e",
+            "on i f",
+            "on d b",
+            "on e c"
+        ],
+        "8": [
+            "on c e",
+            "on g c",
+            "on d h",
+            "on h b",
+            "on f i",
+            "on a d",
+            "on i g",
+            "on j a",
+            "on k f",
+            "on b k"
+        ],
+        "3": [
+            "on h k",
+            "on c e",
+            "on b h",
+            "on g c",
+            "on j d",
+            "on a j",
+            "on d b",
+            "on f i",
+            "on i g",
+            "on k f"
+        ],
+        "15": [
+            "on c e",
+            "on h d",
+            "on g c",
+            "on d j",
+            "on f i",
+            "on i g",
+            "on k f",
+            "on b k",
+            "on j b",
+            "on a h"
+        ],
+        "5": [
+            "on k i",
+            "on g c",
+            "on d h",
+            "on f e",
+            "on i f",
+            "on h b",
+            "on a d",
+            "on j a",
+            "on e g",
+            "on b k"
+        ],
+        "16": [
+            "on h d",
+            "on g c",
+            "on d j",
+            "on f i",
+            "on e g",
+            "on k f",
+            "on b k",
+            "on i e",
+            "on j b",
+            "on a h"
+        ],
+        "10": [
+            "on g c",
+            "on d j",
+            "on h b",
+            "on f i",
+            "on j a",
+            "on e g",
+            "on k f",
+            "on b k",
+            "on i e",
+            "on a h"
+        ],
+        "18": [
+            "on k i",
+            "on h d",
+            "on c g",
+            "on f e",
+            "on i f",
+            "on d j",
+            "on e c",
+            "on b k",
+            "on j b",
+            "on a h"
+        ],
+        "17": [
+            "on c e",
+            "on h d",
+            "on f c",
+            "on g i",
+            "on i f",
+            "on d j",
+            "on k g",
+            "on b k",
+            "on j b",
+            "on a h"
+        ],
+        "9": [
+            "on c e",
+            "on g c",
+            "on d j",
+            "on h b",
+            "on f i",
+            "on i g",
+            "on j a",
+            "on k f",
+            "on b k",
+            "on a h"
+        ],
+        "13": [
+            "on c e",
+            "on f c",
+            "on a j",
+            "on g i",
+            "on i f",
+            "on k g",
+            "on h b",
+            "on j h",
+            "on b k",
+            "on d a"
+        ],
+        "0": [
+            "on h k",
+            "on k i",
+            "on b h",
+            "on g c",
+            "on j d",
+            "on a j",
+            "on f e",
+            "on i f",
+            "on d b",
+            "on e g"
+        ],
+        "12": [
+            "on g c",
+            "on a j",
+            "on h b",
+            "on f i",
+            "on j h",
+            "on e g",
+            "on k f",
+            "on b k",
+            "on i e",
+            "on d a"
+        ],
+        "7": [
+            "on g c",
+            "on d h",
+            "on h b",
+            "on f i",
+            "on a d",
+            "on j a",
+            "on e g",
+            "on k f",
+            "on b k",
+            "on i e"
+        ],
+        "6": [
+            "on k i",
+            "on c g",
+            "on d h",
+            "on f e",
+            "on i f",
+            "on h b",
+            "on a d",
+            "on j a",
+            "on e c",
+            "on b k"
+        ],
+        "4": [
+            "on h k",
+            "on c e",
+            "on b h",
+            "on f c",
+            "on j d",
+            "on a j",
+            "on g i",
+            "on i f",
+            "on d b",
+            "on k g"
+        ],
+        "11": [
+            "on c e",
+            "on g c",
+            "on a j",
+            "on h b",
+            "on f i",
+            "on j h",
+            "on i g",
+            "on k f",
+            "on b k",
+            "on d a"
+        ],
+        "2": [
+            "on h k",
+            "on b h",
+            "on g c",
+            "on j d",
+            "on a j",
+            "on d b",
+            "on f i",
+            "on e g",
+            "on k f",
+            "on i e"
+        ],
+        "19": [
+            "on h d",
+            "on g c",
+            "on f e",
+            "on i f",
+            "on d j",
+            "on e g",
+            "on k b",
+            "on b i",
+            "on j k",
+            "on a h"
+        ],
+        "14": [
+            "on k i",
+            "on a j",
+            "on c g",
+            "on f e",
+            "on i f",
+            "on h b",
+            "on j h",
+            "on e c",
+            "on b k",
+            "on d a"
+        ]
+    }
+}

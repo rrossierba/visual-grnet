@@ -1,12 +1,11 @@
 import json
 from embedding_dataset import precompute_embeddings_split
-from report import _get_embeddings_stats
+from evaluate import _get_embeddings_stats
 from pathlib import Path
-from autoencoder.autoencoder import DAE, Autoencoder, VAE
+from autoencoder.autoencoder import DenoisingAutoencoder, SparseAutoencoder, VariationalAutoencoder
 from keras.models import load_model
 from typing import Union
 
-VERBOSE = 2
 base_dir = Path(__file__).resolve().parent.parent
 
 def extract_embeddings(configuration_dictionary: dict) -> None:
@@ -38,19 +37,19 @@ def extract_embeddings(configuration_dictionary: dict) -> None:
         problem_goals_pergen = json.load(problem_goals_pergen_file)
 
     path_ae = base_dir / paths_cfg['encoder_models_directory'] / f'{autoencoder_name}.keras'
-    ae: Union[VAE, Autoencoder, DAE] = load_model(
+    ae: Union[VariationalAutoencoder, SparseAutoencoder, DenoisingAutoencoder] = load_model(
         path_ae,
-        custom_objects={'VAE': VAE, 'Autoencoder': Autoencoder, 'DAE': DAE},
+        custom_objects={'VAE': VariationalAutoencoder, 'Autoencoder': SparseAutoencoder, 'DAE': DenoisingAutoencoder},
         compile=False
-    )
+    ) # type: ignore
     encoder = ae.encoder
 
     print(encoder.summary())
 
-    all_sequence_path = base_dir / paths_cfg['blocksworld_plans_directory']
-    pergen_sequence_path = base_dir / paths_cfg['pergen_blocksworld_directory']
+    all_sequence_path = base_dir / paths_cfg['train_plans_directory']
+    pergen_sequence_path = base_dir / paths_cfg['benchmark_plans_directory']
     print(f"Base plans path: {all_sequence_path}")
-    print(f"Pergen plans path: {pergen_sequence_path}")
+    print(f"Benchmark plans path: {pergen_sequence_path}")
 
     with open(base_dir / paths_cfg['splits_json_file'], 'r') as splits_json_file:
         splits = json.load(splits_json_file)

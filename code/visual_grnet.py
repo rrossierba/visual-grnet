@@ -169,7 +169,7 @@ class DatasetParams:
 
 @register_keras_serializable()
 class LinearWarmup(LearningRateSchedule):
-    """
+    r"""
     Serializable linear learning rate warmup schedule for backend-agnostic Keras 3.
 
     Linearly scales the learning rate from a baseline minimum threshold up to a targeted 

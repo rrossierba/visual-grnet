@@ -143,7 +143,7 @@ def build_decoder(
     return keras.Model(latent_inputs, decoder_outputs, name='decoder')
 
 @keras.saving.register_keras_serializable()
-class Autoencoder(keras.Model):
+class SparseAutoencoder(keras.Model):
     """
     Standard autoencoder with joint reconstruction and latent L1 regularization.
 
@@ -298,19 +298,21 @@ class Autoencoder(keras.Model):
         regularization_term : tf.Tensor
             Scalar tensor representing the latent L1 penalty term.
         """
-        mse_per_sample = ops.mean(
-            keras.losses.mean_squared_error(data, reconstruction), 
-            axis=(1, 2)
+        reconstruction_loss = ops.mean(
+            ops.mean(
+                keras.losses.mean_squared_error(data, reconstruction), 
+                axis=(1, 2)
+            )
         )
-        reconstruction_loss = ops.mean(mse_per_sample)
 
-        l1_per_sample = ops.mean(
-            ops.abs(latent_representation), 
-            axis=-1
+        regularization_term = ops.mean(
+            ops.sum(
+                ops.abs(latent_representation), 
+                axis=-1
+            )
         )
-        regularization_term = self.l1_lambda * ops.mean(l1_per_sample)
 
-        loss = reconstruction_loss + regularization_term
+        loss = reconstruction_loss + self.l1_lambda * regularization_term
         return loss, reconstruction_loss, regularization_term
 
     def train_step(self, data):
@@ -332,7 +334,7 @@ class Autoencoder(keras.Model):
             reconstruction = self.decoder(latent_representation, training=True)
             loss, reconstruction_loss, regularization_term = self.calculate_loss(data, latent_representation, reconstruction)
 
-        grads = tape.gradient(loss, self.trainable_weights)
+        grads = tape.gradient(loss, self.trainable_weights) # type: ignore
         self.optimizer.apply_gradients(zip(grads, self.trainable_weights))
 
         self.loss_tracker.update_state(loss)
@@ -376,7 +378,7 @@ class Autoencoder(keras.Model):
 
 
 @keras.saving.register_keras_serializable()
-class DAE(keras.Model):
+class DenoisingAutoencoder(keras.Model):
     """
     Denoising Autoencoder (DAE) for robust feature learning.
 
@@ -542,11 +544,12 @@ class DAE(keras.Model):
         tf.Tensor
             Scalar tensor representing the mean reconstruction loss across the batch.
         """
-        mse_per_sample = ops.mean(
-            keras.losses.mean_squared_error(data, reconstruction), 
-            axis=(1, 2)
+        return ops.mean(
+            ops.mean(
+                keras.losses.mean_squared_error(data, reconstruction), 
+                axis=(1, 2)
+            )
         )
-        return ops.mean(mse_per_sample)
 
     def train_step(self, data):
         """
@@ -568,7 +571,7 @@ class DAE(keras.Model):
             reconstruction = self.decoder(latent_representation, training=True)
             reconstruction_loss = self.calculate_loss(data, reconstruction)
 
-        grads = tape.gradient(reconstruction_loss, self.trainable_weights)
+        grads = tape.gradient(reconstruction_loss, self.trainable_weights) # type: ignore
         self.optimizer.apply_gradients(zip(grads, self.trainable_weights))
 
         self.loss_tracker.update_state(reconstruction_loss)
@@ -649,7 +652,7 @@ class Sampler(keras.Layer):
 
 
 @keras.saving.register_keras_serializable()
-class VAE(keras.Model):
+class VariationalAutoencoder(keras.Model):
     """
     Variational Autoencoder (VAE) architecture with adjustable KL penalty.
 
@@ -830,9 +833,12 @@ class VAE(keras.Model):
         kl_loss : tf.Tensor
             Scalar tensor tracking the evaluated Kullback-Leibler distribution divergence.
         """
-        squared_error = ops.square(data - reconstruction)
-        sse_per_sample = ops.sum(squared_error, axis=(1, 2, 3))
-        reconstruction_loss = ops.mean(sse_per_sample)
+        reconstruction_loss = ops.mean(
+            ops.mean(
+                keras.losses.mean_squared_error(data, reconstruction), 
+                axis=(1, 2)
+            )
+        )
 
         kl_loss = ops.mean(
             ops.sum(
@@ -841,7 +847,7 @@ class VAE(keras.Model):
             ) 
         ) 
 
-        total_loss = reconstruction_loss + (self.beta * kl_loss)
+        total_loss = reconstruction_loss + self.beta * kl_loss
         return total_loss, reconstruction_loss, kl_loss
 
     def train_step(self, data):
@@ -865,7 +871,7 @@ class VAE(keras.Model):
 
             total_loss, reconstruction_loss, kl_loss = self.calculate_loss(data, z_mean, z_log_var, reconstruction)
         
-        grads = tape.gradient(total_loss, self.trainable_weights)
+        grads = tape.gradient(total_loss, self.trainable_weights) # type: ignore
         self.optimizer.apply_gradients(zip(grads, self.trainable_weights))
 
         self.total_loss_tracker.update_state(total_loss)

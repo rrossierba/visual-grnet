@@ -1,0 +1,29 @@
+{
+  "dataset": {
+    "image_dimension": 256,
+    "channels": 3,
+    "img_directory": "Specify autoencoder images folder"
+  },
+  "tuning": {
+    "seed": 42,
+    "epochs": 30,
+    "batch_size": 128,
+    "study_name": "autoencoder-tuning",
+    "n_trials": 40,
+    "n_startup_trials": 10,
+    "n_warmup_steps": 10,
+    "patience": 5
+  },
+  "search_space": {
+    "latent_dim_bounds": [6, 8],
+    "filter_dim_configs": {
+      "0": [16, 32, 64, 128, 256, 512],
+      "1": [32, 64, 128, 256, 512],
+      "2": [32, 64, 128, 256, 256, 256]
+    },
+    "activations": ["relu", "silu", "leaky_relu", "selu"],
+    "kernel_size_bounds": [3, 5],
+    "l1_lambda_bounds": [1e-6, 1e-4],
+    "learning_rate": 0.001
+  }
+}
