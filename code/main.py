@@ -182,7 +182,7 @@ def train_model(version: int, domain: str, params: NetworkParams, callback_param
             json.dump(history, history_file, indent=4)
 
 if __name__ == '__main__':
-    with open('files/configuration/visual_grnet_config.json', 'r') as f:
+    with open(base_dir / 'files/configuration/visual_grnet_config.json', 'r') as f:
         config = json.load(f)
 
     train_config = config["train"]
@@ -239,13 +239,13 @@ if __name__ == '__main__':
         use_weight_monitor=cb_cfg['use_weight_monitor']
     )
 
-    # train_model(
-    #     version=version_number, 
-    #     domain=domain,
-    #     params=params, 
-    #     callback_params=callback_params, 
-    #     epochs=exp_cfg['epochs']
-    # )
+    train_model(
+        version=version_number, 
+        domain=domain,
+        params=params, 
+        callback_params=callback_params, 
+        epochs=exp_cfg['epochs']
+    )
     
-    run_evaluation()
+    run_evaluation(base_dir / "files/configuration/visual_grnet_config.json")
     create_report(version_number, domain)
