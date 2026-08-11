@@ -1,10 +1,10 @@
 {
-  "version":421,
+  "version":710,
   "domain":"blocksworld",
   "train": {
     "experiment": {
       "epochs": 50,
-      "verbose": 2
+      "verbose": 1
     },
     "dataset_bounds": {
       "num_classes": 506,
@@ -28,9 +28,9 @@
       "model_name": "visual-grnet",
       "embedding_dim": 256,
       "use_bidirectional": false,
-      "loss_function": "weighted_bce",
+      "loss_function": "bce",
       "adapter": {
-        "use_adapter": false,
+        "use_adapter": true,
         "adapt_factor": 5,
         "adapt_dropout": 0.0
       }

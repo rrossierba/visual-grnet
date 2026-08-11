@@ -29,6 +29,63 @@ import matplotlib.pyplot as plt
 
 base_dir = Path(__file__).resolve().parent.parent
 
+
+def _build_paths(base_dir: Path, version: int, domain:str, final: bool) -> dict:
+    """
+    Map and resolve the unified absolute directory layout for a given experiment version.
+
+    Parses the target model configuration parameters from disk to locate 
+    associated datasets, model checkpoints, training history charts, and 
+    destination reporting structures.
+
+    Parameters
+    ----------
+    base_dir : pathlib.Path
+        The absolute root path directory pointing to the active project workspace.
+    version : int
+        The unique integer tracking code of the specific experiment trial.
+    final : bool
+        Flag indicating whether to target the fully evaluated production model 
+        or an intermediate epoch checkpoint.
+
+    Returns
+    -------
+    dict of (str, pathlib.Path)
+        A structural dictionary mapping specific data and file targets to their 
+        resolved filesystem path locations.
+    """
+    final_str = '-final' if final else ''
+    model_file = f'visual-grnet-bw-v{version}{final_str}.keras'
+    model_name = model_file.split('.')[0]
+
+    domain_dir = base_dir / 'files' / domain
+
+    paths = {
+        'model_file': model_file,
+        'model_name': model_name,
+        'model_checkpoint':         domain_dir / 'experiments' / f'{version}' / model_file,
+        'params':                   domain_dir / 'experiments' / f'{version}' / f'visual-grnet-bw_params-v{version}.json',
+        'history':                  domain_dir / 'experiments' / f'{version}' / f'visual-grnet-bw_history-v{version}.json',
+        'predictions_folder':       domain_dir / 'experiments' / f'{version}' / 'predictions',
+        # 'image_sequences':          domain_dir / 'bw_sequences',
+        # 'dizionario_goal':          domain_dir / 'dizionario_goal_bw.json',
+        # 'problem_goals':            domain_dir / 'goals_bw.json',
+        'report_dir':               domain_dir / 'experiments' / f'{version}' / 'report',
+        'results_md':               domain_dir / 'experiments' / f'{version}' / 'report' / f'test_results_{model_name}.md',
+        'results_pdf':              domain_dir / 'reports' / f'test_results_{model_name}.pdf'
+    }
+
+    with open(paths['params']) as f:
+        params = json.load(f)
+
+    dataset_version = params['dataset']['dataset_version']
+    paths['train'] = domain_dir / 'embeddings_cache' / dataset_version /  f'train.npz'
+    paths['test'] = domain_dir / 'embeddings_cache' / dataset_version /  f'test.npz'
+
+    return paths
+
+
+
 def _create_params_report(params: dict, indent: int = 0) -> str:
     """
     Recursively construct a Markdown formatted string of nested configuration parameters.
@@ -61,61 +118,6 @@ def _create_params_report(params: dict, indent: int = 0) -> str:
             to_return += '\n\n' + '\t' * indent + f'* `{param}`: `{value}`'
     
     return to_return
-
-
-def _build_paths(base_dir: Path, version: int, final: bool) -> dict:
-    """
-    Map and resolve the unified absolute directory layout for a given experiment version.
-
-    Parses the target model configuration parameters from disk to locate 
-    associated datasets, model checkpoints, training history charts, and 
-    destination reporting structures.
-
-    Parameters
-    ----------
-    base_dir : pathlib.Path
-        The absolute root path directory pointing to the active project workspace.
-    version : int
-        The unique integer tracking code of the specific experiment trial.
-    final : bool
-        Flag indicating whether to target the fully evaluated production model 
-        or an intermediate epoch checkpoint.
-
-    Returns
-    -------
-    dict of (str, pathlib.Path)
-        A structural dictionary mapping specific data and file targets to their 
-        resolved filesystem path locations.
-    """
-    final_str = '-final' if final else ''
-    model_file = f'visual-grnet-bw-v{version}{final_str}.keras'
-    model_name = model_file.split('.')[0]
-
-    bw_dir = base_dir / 'files' / 'bw'
-
-    paths = {
-        'model_file': model_file,
-        'model_name': model_name,
-        'model_checkpoint':         bw_dir / 'experiments' / f'v{version}' / model_file,
-        'params':                   bw_dir / 'experiments' / f'v{version}' / f'visual-grnet-bw_params-v{version}.json',
-        'history':                  bw_dir / 'experiments' / f'v{version}' / f'visual-grnet-bw_history-v{version}.json',
-        'predictions_folder':       bw_dir / 'experiments' / f'v{version}' / 'predictions',
-        'image_sequences':          bw_dir / 'bw_sequences',
-        'dizionario_goal':          bw_dir / 'dizionario_goal_bw.json',
-        'problem_goals':            bw_dir / 'goals_bw.json',
-        'report_dir':               bw_dir / 'experiments' / f'v{version}' / 'report',
-        'results_md':               bw_dir / 'experiments' / f'v{version}' / 'report' / f'test_results_{model_name}.md',
-        'results_pdf':              bw_dir / 'reports' / f'test_results_{model_name}.pdf'
-    }
-
-    with open(paths['params']) as f:
-        params = json.load(f)
-
-    dataset_version = params['dataset']['dataset_version']
-    paths['train'] = bw_dir / 'bw_embeddings' / f'train_{dataset_version}.npz'
-    paths['test'] = bw_dir / 'bw_embeddings' / f'test_{dataset_version}.npz'
-
-    return paths
 
 
 def _save_history(history_path: Union[Path, str], report_dir: Path) -> Path:
@@ -645,6 +647,7 @@ def describe_model(model: Model, indent: int = 0) -> str:
 
 def create_report(
     version: int,
+    domain: str, 
     final: bool = False,
     both: bool = False,
     save: bool = True,
@@ -677,7 +680,7 @@ def create_report(
         The complete generated Markdown document text if `return_str` is True, 
         otherwise None.
     """
-    paths = _build_paths(Path(base_dir), version, final)
+    paths = _build_paths(Path(base_dir), version, domain, final)
     print('Compiling the report...')
     start_time = time()
 
@@ -698,7 +701,7 @@ def create_report(
     report += _run_percentages(model, paths, params, mean, std)
 
     if both:
-        final_paths = _build_paths(Path(base_dir), version, final=True)
+        final_paths = _build_paths(Path(base_dir), version, domain, final=True)
         if final_paths.get('train') is not None and final_paths.get('test') is not None:
             final_mean, final_std = get_mean_std(final_paths['train'])
         else:
@@ -721,7 +724,7 @@ def create_report(
 
     return report if return_str else None
 
-def convert_markdown_to_pdf(version: int, final: bool = False) -> None:
+def convert_markdown_to_pdf(version: int, domain: str, final: bool = False) -> None:
     """
     Compile an existing standalone Markdown report file into a production PDF document.
 
@@ -735,7 +738,7 @@ def convert_markdown_to_pdf(version: int, final: bool = False) -> None:
     final : bool, default False
         If True, paths are directed to parse the final validated production file layout.
     """
-    paths = _build_paths(Path(base_dir), version, final)
+    paths = _build_paths(Path(base_dir), version, domain, final)
 
     try:
         pypandoc.convert_file(

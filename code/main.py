@@ -47,7 +47,7 @@ VERBOSE = 2
 base_dir = Path(__file__).resolve().parent.parent
 
 
-def _build_train_paths(base_dir: Path, version: int, dataset_str: str) -> dict:
+def _build_train_paths(base_dir: Path, version: int, dataset_str: str, domain: str) -> dict:
     """Funzione che definisce i percorsi dei diversi elementi necessari ad una run
 
     Parameters
@@ -65,19 +65,19 @@ def _build_train_paths(base_dir: Path, version: int, dataset_str: str) -> dict:
         Dizionario contenente i diversi percorsi per una run
     """    
 
-    files_dir = base_dir / 'files'/'bw'
+    files_dir = base_dir / 'files'/ domain
     return {
-        'train':        files_dir / 'bw_embeddings' / f'train_{dataset_str}.npz',
-        'validation':   files_dir / 'bw_embeddings' / f'validation_{dataset_str}.npz',
-        'version_dir':  files_dir / 'experiments' / f'v{version}',
-        'params':       files_dir / 'experiments' / f'v{version}' / f'visual-grnet-bw_params-v{version}.json',
-        'checkpoint':   files_dir / 'experiments' / f'v{version}' / f'visual-grnet-bw-v{version}.keras',
-        'final_model':  files_dir / 'experiments' / f'v{version}' / f'visual-grnet-bw-v{version}-final.keras',
-        'history':      files_dir / 'experiments' / f'v{version}' / f'visual-grnet-bw_history-v{version}.json',
-        'train_debug_results': files_dir / 'experiments' / f'v{version}' / f'train-debug-v{version}.pkl',
+        'train':        files_dir / 'embeddings_cache' / dataset_str / 'train.npz',
+        'validation':   files_dir / 'embeddings_cache' / dataset_str / 'validation.npz',
+        'version_dir':  files_dir / 'experiments' / f'{version}',
+        'params':       files_dir / 'experiments' / f'{version}' / f'visual-grnet-bw_params-v{version}.json',
+        'checkpoint':   files_dir / 'experiments' / f'{version}' / f'visual-grnet-bw-v{version}.keras',
+        'final_model':  files_dir / 'experiments' / f'{version}' / f'visual-grnet-bw-v{version}-final.keras',
+        'history':      files_dir / 'experiments' / f'{version}' / f'visual-grnet-bw_history-v{version}.json',
+        'train_debug_results': files_dir / 'experiments' / f'{version}' / f'train-debug-v{version}.pkl',
     }
 
-def train_model(version: int, params: NetworkParams, callback_params: CallbackParams | None = None, epochs: int = 50):
+def train_model(version: int, domain: str, params: NetworkParams, callback_params: CallbackParams | None = None, epochs: int = 50):
     """
     Execute the end-to-end training pipeline for a sequence classification network.
 
@@ -108,7 +108,7 @@ def train_model(version: int, params: NetworkParams, callback_params: CallbackPa
     if dataset_version is None:
         raise ValueError('Dataset not specified')
 
-    paths = _build_train_paths(base_dir=base_dir, version=version, dataset_str=dataset_version)
+    paths = _build_train_paths(base_dir=base_dir, version=version, dataset_str=dataset_version, domain=domain)
     train_dataset_path = paths.get('train', Path('train'))
     validation_dataset_path = paths.get('validation', Path('validation'))
     checkpoint_model_path = paths.get('checkpoint', Path('checkpoint'))
@@ -182,17 +182,19 @@ def train_model(version: int, params: NetworkParams, callback_params: CallbackPa
             json.dump(history, history_file, indent=4)
 
 if __name__ == '__main__':
-    with open('train_config.json', 'r') as f:
+    with open('files/configuration/visual_grnet_config.json', 'r') as f:
         config = json.load(f)
 
-    opt_params = config['optuna_best_params']
-    net_cfg = config['network']
-    cb_cfg = config['callbacks']
-    exp_cfg = config['experiment']
-    ds_bounds = config['dataset_bounds']
+    train_config = config["train"]
+    opt_params = train_config['optuna_best_params']
+    net_cfg = train_config['network']
+    cb_cfg = train_config['callbacks']
+    exp_cfg = train_config['experiment']
+    ds_bounds = train_config['dataset_bounds']
 
     VERBOSE = exp_cfg.get('verbose', 2)
-    version_number = exp_cfg['version']
+    version_number = config['version']
+    domain = config['domain']
 
     params = NetworkParams(
         model_name=net_cfg['model_name'],
@@ -237,12 +239,13 @@ if __name__ == '__main__':
         use_weight_monitor=cb_cfg['use_weight_monitor']
     )
 
-    train_model(
-        version=version_number, 
-        params=params, 
-        callback_params=callback_params, 
-        epochs=exp_cfg['epochs']
-    )
+    # train_model(
+    #     version=version_number, 
+    #     domain=domain,
+    #     params=params, 
+    #     callback_params=callback_params, 
+    #     epochs=exp_cfg['epochs']
+    # )
     
     run_evaluation()
-    create_report(version_number)
+    create_report(version_number, domain)
