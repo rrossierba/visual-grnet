@@ -278,14 +278,12 @@ class WarmupCosineDecay(LearningRateSchedule):
         return ops.where(step < warmup_steps, warmup_lr, decay_lr)
 
     def get_config(self) -> dict:
-        config = super().get_config()
-        config.update({
+        return {
             'peak_lr': self.peak_lr,
             'warmup_steps': self.warmup_steps,
             'decay_steps': self.decay_steps,
             'min_lr': self.min_lr,
-        })
-        return config
+        }
 
 
 @dataclass

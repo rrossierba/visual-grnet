@@ -85,7 +85,6 @@ def _build_paths(base_dir: Path, version: int, domain:str, final: bool) -> dict:
     return paths
 
 
-
 def _create_params_report(params: dict, indent: int = 0) -> str:
     """
     Recursively construct a Markdown formatted string of nested configuration parameters.
@@ -367,6 +366,7 @@ def _get_or_load_predictions(
 
     return y_true, y_pred
 
+
 def _get_metrics_df(y_true, y_pred):
     """_summary_
 
@@ -390,6 +390,7 @@ def _get_metrics_df(y_true, y_pred):
         for t in thresholds
     }
     return pd.DataFrame(metrics).rename(index=REPORT.METRICS_DICT)
+
 
 def _build_report_header(paths: dict, history_md: str, params_md: str, notes_md: str, embedding_stats_md: str|None) -> str:
     """
@@ -431,6 +432,7 @@ def _build_report_header(paths: dict, history_md: str, params_md: str, notes_md:
 
     return buffer
 
+
 def _format_percentage_section(
     test_percentage: float, y_true: np.ndarray, y_pred: np.ndarray, metrics_df: pd.DataFrame
 ) -> str:
@@ -466,6 +468,7 @@ def _format_percentage_section(
         metrics_df.to_markdown(floatfmt='.4f'),
     ]
     return ''.join(buffer)
+
 
 def _save_report(report: str, paths: dict) -> None:
     """
@@ -505,6 +508,7 @@ def _save_report(report: str, paths: dict) -> None:
     except Exception as e:
         print(f"Report not saved: {e}")
 
+
 def _run_percentages(model, paths: dict, params: dict, mean: np.ndarray|None, std: np.ndarray|None) -> str:
     """
     Iterate over sequential tracking horizons to generate aggregated evaluation text chunks.
@@ -534,6 +538,7 @@ def _run_percentages(model, paths: dict, params: dict, mean: np.ndarray|None, st
         metrics_df = _get_metrics_df(y_true, y_pred)
         report += _format_percentage_section(pct, y_true, y_pred, metrics_df)
     return report
+
 
 def describe_layer(layer: Layer, indent: int = 0) -> str:
     """
@@ -607,6 +612,7 @@ def describe_layer(layer: Layer, indent: int = 0) -> str:
 
     return "".join(buffer)
 
+
 def describe_model(model: Model, indent: int = 0) -> str:
     """
     Recursively generate a structural Markdown summary profile of a Keras Model.
@@ -644,6 +650,7 @@ def describe_model(model: Model, indent: int = 0) -> str:
             buffer.append(describe_layer(layer, indent=indent))
 
     return "\n".join(buffer)
+
 
 def create_report(
     version: int,
@@ -723,6 +730,7 @@ def create_report(
         _save_report(report, paths)
 
     return report if return_str else None
+
 
 def convert_markdown_to_pdf(version: int, domain: str, final: bool = False) -> None:
     """

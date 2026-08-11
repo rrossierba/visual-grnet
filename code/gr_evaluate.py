@@ -10,7 +10,7 @@ from attention_extraction_layers import AttentionWeights, ContextVector
 from typing import Union
 
 SEED = int(os.getenv('EXPERIMENT_SEED', 43))
-
+base_dir = Path(__file__).resolve().parent.parent
 
 def array_min_max(arr):
     min_val = np.min(arr)
@@ -422,9 +422,9 @@ def evaluate_blocksworld_categories(config: dict, version:int, metric:str) -> di
         formatted as percentages for each planning category and observation scale.
     """
     paths_cfg = config['paths']
-    base_dir = Path(paths_cfg['files_directory']) / "blocksworld"
-    experiments_dir = base_dir / paths_cfg['experiments_directory']
-    domain_objects_dir = base_dir / paths_cfg['domain_jsons_directory']
+    domain_dir = base_dir / paths_cfg['files_directory'] / "blocksworld"
+    experiments_dir = domain_dir / paths_cfg['experiments_directory']
+    domain_objects_dir = domain_dir / paths_cfg['domain_jsons_directory']
 
     with open(domain_objects_dir / paths_cfg['plans_groups_file'], 'r') as f:
         plan_categories = json.load(f)
@@ -445,8 +445,8 @@ def evaluate_blocksworld_categories(config: dict, version:int, metric:str) -> di
     embedding_dim = params['embedding_dim']
 
     emb_dir = paths_cfg['embeddings_directory']
-    test_npz_file = base_dir / emb_dir / dataset_str / f'test_pergen.npz'
-    train_npz_file = base_dir / emb_dir / dataset_str / f'train.npz'
+    test_npz_file = domain_dir / emb_dir / dataset_str / f'test_pergen.npz'
+    train_npz_file = domain_dir / emb_dir / dataset_str / f'train.npz'
     result_file_path = experiments_dir / str(version) / f'gr_results.pkl'
 
     eval_cfg = config['evaluation']
