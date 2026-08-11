@@ -218,7 +218,7 @@ if __name__ == '__main__':
             learning_rate=opt_params['learning_rate'],
             lr_scheduler=LRSchedulerParams(
                 use_warmup=True,
-                use_decay=True,
+                use_decay=opt_params['use_decay'],
                 warmup_epochs=opt_params['warmup_epochs'], 
                 min_lr=opt_params['learning_rate_min']
             ),
