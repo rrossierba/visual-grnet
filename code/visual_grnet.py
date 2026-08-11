@@ -10,6 +10,7 @@ phases during early training epochs.
 import random
 import time
 import os
+import math
 from pathlib import Path
 from datetime import datetime
 from typing import Union, List
@@ -232,6 +233,61 @@ class LinearWarmup(LearningRateSchedule):
         }
 
 
+@register_keras_serializable()
+class WarmupCosineDecay(LearningRateSchedule):
+    r"""
+    Serializable Learning Rate schedule with Linear Warmup followed by Cosine Decay 
+    for backend-agnostic Keras 3.
+
+    Parameters
+    ----------
+    peak_lr : float
+        Maximum target learning rate achieved at the end of warmup.
+    warmup_steps : int
+        Number of steps for the linear warmup phase.
+    decay_steps : int
+        Number of steps for the cosine decay phase after warmup.
+    min_lr : float, default 1e-5
+        Baseline learning rate floor used at start of warmup and end of decay.
+    """
+    def __init__(
+        self, 
+        peak_lr: float, 
+        warmup_steps: int, 
+        decay_steps: int, 
+        min_lr: float = 1e-5,
+        **kwargs
+    ):
+        super().__init__(**kwargs)
+        self.peak_lr = peak_lr
+        self.warmup_steps = warmup_steps
+        self.decay_steps = decay_steps
+        self.min_lr = min_lr
+
+    def __call__(self, step):
+        step = ops.cast(step, 'float32')
+        warmup_steps = float(self.warmup_steps)
+        decay_steps = float(self.decay_steps)
+
+        warmup_lr = self.min_lr + (self.peak_lr - self.min_lr) * (step / warmup_steps)
+
+        decay_step = ops.clip(step - warmup_steps, 0.0, decay_steps)
+        cosine_decay = 0.5 * (1.0 + ops.cos(math.pi * (decay_step / decay_steps)))
+        decay_lr = self.min_lr + (self.peak_lr - self.min_lr) * cosine_decay
+
+        return ops.where(step < warmup_steps, warmup_lr, decay_lr)
+
+    def get_config(self) -> dict:
+        config = super().get_config()
+        config.update({
+            'peak_lr': self.peak_lr,
+            'warmup_steps': self.warmup_steps,
+            'decay_steps': self.decay_steps,
+            'min_lr': self.min_lr,
+        })
+        return config
+
+
 @dataclass
 class LRSchedulerParams:
     """
@@ -249,6 +305,7 @@ class LRSchedulerParams:
         The step density parameter used to map epoch bounds to absolute step limits.
     """
     use_warmup: bool = True
+    use_decay: bool = False
     min_lr: float = 1e-5
     warmup_epochs: int = 5
     steps_per_epoch: int = 600
@@ -397,10 +454,17 @@ def build_network(network_params: Union[NetworkParams, None] = None, bias_initia
 
     model = Model(inputs=inputs, outputs=outputs, name=network_params.model_name)
 
-    if optimizer_params.lr_scheduler.use_warmup:
+    if optimizer_params.lr_scheduler.use_warmup and not optimizer_params.lr_scheduler.use_decay:
         lr_schedule = LinearWarmup(
             peak_lr=optimizer_params.learning_rate,
             warmup_steps=optimizer_params.lr_scheduler.warmup_epochs * optimizer_params.lr_scheduler.steps_per_epoch,
+            min_lr=optimizer_params.lr_scheduler.min_lr
+        )
+    elif optimizer_params.lr_scheduler.use_warmup and optimizer_params.lr_scheduler.use_decay:
+        lr_schedule = WarmupCosineDecay(
+            peak_lr=optimizer_params.learning_rate,
+            warmup_steps=optimizer_params.lr_scheduler.warmup_epochs * optimizer_params.lr_scheduler.steps_per_epoch,
+            decay_steps=optimizer_params.lr_scheduler.steps_per_epoch * (50 - optimizer_params.lr_scheduler.warmup_epochs),
             min_lr=optimizer_params.lr_scheduler.min_lr
         )
     else:
